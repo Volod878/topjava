@@ -1,28 +1,34 @@
 package ru.javawebinar.topjava.service;
 
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.repository.DAOMeal;
 
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.util.Arrays;
 import java.util.List;
 
 public class MealService {
-    private final List<Meal> meals;
+
+    private final DAOMeal dao = DAOMeal.getINSTANCE();
 
     public MealService() {
-        meals = Arrays.asList(
-                new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500),
-                new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0), "Обед", 1000),
-                new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Ужин", 500),
-                new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 0, 0), "Еда на граничное значение", 100),
-                new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 10, 0), "Завтрак", 1000),
-                new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Обед", 500),
-                new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410)
-        );
     }
 
     public List<Meal> getAllMeals() {
-        return meals;
+        return dao.getAll();
+    }
+
+    public void addMeal(Meal meal) {
+        dao.add(meal);
+    }
+
+    public Meal getMeal(long id) {
+        return dao.get(id);
+    }
+
+    public void editMeal(Meal meal) {
+        dao.update(meal);
+    }
+
+    public void deleteMeal(long id) {
+        dao.delete(id);
     }
 }
