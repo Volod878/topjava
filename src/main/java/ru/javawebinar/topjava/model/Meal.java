@@ -3,12 +3,11 @@ package ru.javawebinar.topjava.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Objects;
 
 public class Meal {
-    private static final AtomicLong lastId = new AtomicLong();
 
-    private final long id;
+    private long id;
 
     private LocalDateTime dateTime;
 
@@ -16,8 +15,10 @@ public class Meal {
 
     private int calories;
 
+    public Meal() {
+    }
+
     public Meal(LocalDateTime dateTime, String description, int calories) {
-        this.id = lastId.incrementAndGet();
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
@@ -25,6 +26,10 @@ public class Meal {
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public LocalDateTime getDateTime() {
@@ -57,5 +62,21 @@ public class Meal {
 
     public LocalTime getTime() {
         return dateTime.toLocalTime();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Meal)) return false;
+        Meal meal = (Meal) o;
+        return getId() == meal.getId()
+                && getCalories() == meal.getCalories()
+                && Objects.equals(getDateTime(), meal.getDateTime())
+                && Objects.equals(getDescription(), meal.getDescription());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getDateTime(), getDescription(), getCalories());
     }
 }

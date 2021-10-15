@@ -4,20 +4,7 @@
 <html lang="ru">
 <head>
     <title>Meals</title>
-    <style>
-        TABLE {
-            border-collapse: collapse;
-        }
-
-        TD, TH {
-            padding: 3px;
-            border: 1px solid black;
-        }
-
-        TH {
-            background: #b0e0e6;
-        }
-    </style>
+    <link rel="stylesheet" href="main.css"/>
 </head>
 <body>
 <h3><a href="index.html">Home</a></h3>
@@ -42,7 +29,7 @@
                 <td>
                     <fmt:parseDate value="${mealTo.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime"
                                    type="both"/>
-                    <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}"/>
+                    <fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${parsedDateTime}"/>
                 </td>
                 <td>${mealTo.description}</td>
                 <td>${mealTo.calories}</td>
