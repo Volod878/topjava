@@ -6,11 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
+import ru.javawebinar.topjava.to.MealTo;
+import ru.javawebinar.topjava.util.MealsUtil;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
+import static ru.javawebinar.topjava.web.SecurityUtil.authUserCaloriesPerDay;
 import static ru.javawebinar.topjava.web.SecurityUtil.authUserId;
 
 @Controller
@@ -24,9 +29,27 @@ public class MealRestController {
         this.service = service;
     }
 
-    public List<Meal> getAll() {
+    public List<MealTo> getAll() {
         log.info("getAll");
-        return service.getAllByUser(authUserId());
+        return MealsUtil.getTos(service.getAllByUser(authUserId()), authUserCaloriesPerDay());
+    }
+
+    public List<MealTo> getAllBetweenDatetime(String fromDate,
+                                              String toDate,
+                                              String fromTime,
+                                              String toTime) {
+        log.info("getAllByDatetime");
+
+        List<Meal> meals = service.getAllByUserBetweenDates(
+                authUserId(),
+                fromDate.isEmpty() ? LocalDate.MIN : LocalDate.parse(fromDate),
+                toDate.isEmpty() ? LocalDate.MAX : LocalDate.parse(toDate).plusDays(1));
+
+        return MealsUtil.getFilteredTos(
+                meals,
+                authUserCaloriesPerDay(),
+                fromTime.isEmpty() ? LocalTime.MIN : LocalTime.parse(fromTime),
+                toTime.isEmpty() ? LocalTime.MAX : LocalTime.parse(toTime));
     }
 
     public Meal get(int id) {
