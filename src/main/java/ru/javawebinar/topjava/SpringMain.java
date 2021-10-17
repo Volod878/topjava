@@ -4,6 +4,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
+import ru.javawebinar.topjava.web.meal.MealRestController;
 import ru.javawebinar.topjava.web.user.AdminRestController;
 
 import java.util.Arrays;
@@ -15,6 +17,28 @@ public class SpringMain {
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
             AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
             adminUserController.create(new User(null, "userName", "email@mail.ru", "password", Role.ADMIN));
+
+            MealRestController mealRestController = appCtx.getBean(MealRestController.class);
+            System.out.println(mealRestController.getAll());
+            System.out.println(mealRestController.get(5));
+            mealRestController.delete(5);
+            try {
+                System.out.println(mealRestController.get(2));
+            } catch (NotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                mealRestController.delete(2);
+            } catch (NotFoundException e) {
+                e.printStackTrace();
+            }
+
+            adminUserController.create(new User(null, "userName", "amail@mail.ru", "password", Role.USER));
+            adminUserController.create(new User(null, "userName", "zmail@mail.ru", "password", Role.USER));
+            adminUserController.create(new User(null, "zzz", "zzzmail@mail.ru", "password", Role.USER));
+            adminUserController.create(new User(null, "amigo", "amigomail@mail.ru", "password", Role.USER));
+            adminUserController.create(new User(null, "amigo", "nomail@mail.ru", "password", Role.USER));
+            System.out.println(adminUserController.getAll());
         }
     }
 }
