@@ -9,12 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
-import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
 public class MealTestData {
-    public static final int CURRENT_USER_ID = USER_ID;
-    public static final int ANOTHER_USER_ID = ADMIN_ID;
     public static final LocalDate DATE_24_10_2021 = LocalDate.of(2021, Month.OCTOBER, 24);
     public static final LocalDate DATE_25_10_2021 = LocalDate.of(2021, Month.OCTOBER, 25);
     public static final int FIRST_MEAL_ID = 100002;
