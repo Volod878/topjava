@@ -12,19 +12,18 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
-public class JdbcMealRepository implements MealRepository {
+public abstract class JdbcMealRepository implements MealRepository {
 
-    private static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
-
-    private final JdbcTemplate jdbcTemplate;
-
-    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
-    private final SimpleJdbcInsert insertMeal;
+    protected static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
+    protected final JdbcTemplate jdbcTemplate;
+    protected final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    protected final SimpleJdbcInsert insertMeal;
+    protected MapSqlParameterSource map;
 
     @Autowired
     public JdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -38,24 +37,26 @@ public class JdbcMealRepository implements MealRepository {
 
     @Override
     public Meal save(Meal meal, int userId) {
-        MapSqlParameterSource map = new MapSqlParameterSource()
-                .addValue("id", meal.getId())
-                .addValue("description", meal.getDescription())
-                .addValue("calories", meal.getCalories())
-                .addValue("date_time", meal.getDateTime())
-                .addValue("user_id", userId);
+        MapSqlParameterSource mapParameter =
+                Objects.requireNonNullElseGet(map, () -> new MapSqlParameterSource()
+                        .addValue("id", meal.getId())
+                        .addValue("description", meal.getDescription())
+                        .addValue("calories", meal.getCalories())
+                        .addValue("date_time", meal.getDateTime())
+                        .addValue("user_id", userId));
 
         if (meal.isNew()) {
-            Number newId = insertMeal.executeAndReturnKey(map);
+            Number newId = insertMeal.executeAndReturnKey(mapParameter);
             meal.setId(newId.intValue());
         } else {
             if (namedParameterJdbcTemplate.update("" +
                     "UPDATE meals " +
                     "   SET description=:description, calories=:calories, date_time=:date_time " +
-                    " WHERE id=:id AND user_id=:user_id", map) == 0) {
+                    " WHERE id=:id AND user_id=:user_id", mapParameter) == 0) {
                 return null;
             }
         }
+        map = null;
         return meal;
     }
 
@@ -78,7 +79,7 @@ public class JdbcMealRepository implements MealRepository {
     }
 
     @Override
-    public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
+    public <DT extends Serializable> List<Meal> getBetweenHalfOpen(DT startDateTime, DT endDateTime, int userId) {
         return jdbcTemplate.query(
                 "SELECT * FROM meals WHERE user_id=?  AND date_time >=  ? AND date_time < ? ORDER BY date_time DESC",
                 ROW_MAPPER, userId, startDateTime, endDateTime);

@@ -8,7 +8,7 @@ import ru.javawebinar.topjava.repository.MealRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.time.LocalDateTime;
+import java.io.Serializable;
 import java.util.List;
 
 @Repository
@@ -54,7 +54,7 @@ public class JpaMealRepository implements MealRepository {
     }
 
     @Override
-    public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
+    public <DT extends Serializable> List<Meal> getBetweenHalfOpen(DT startDateTime, DT endDateTime, int userId) {
         return em.createNamedQuery(Meal.GET_BETWEEN, Meal.class)
                 .setParameter("userId", userId)
                 .setParameter("startDateTime", startDateTime)

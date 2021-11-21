@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class DataJpaMealRepository implements MealRepository {
     }
 
     @Override
-    public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
-        return crudRepository.findAllByUserIdAndGetBetween(startDateTime, endDateTime, userId);
+    public <DT extends Serializable> List<Meal> getBetweenHalfOpen(DT startDateTime, DT endDateTime, int userId) {
+        return crudRepository.findAllByUserIdAndGetBetween((LocalDateTime) startDateTime, (LocalDateTime) endDateTime, userId);
     }
 }
