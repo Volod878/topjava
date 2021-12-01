@@ -1,0 +1,238 @@
+{
+	"info": {
+		"_postman_id": "00932b40-6d7d-468c-ac60-45741f84ad39",
+		"name": "topjava",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "meals",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/topjava/rest/meals",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"topjava",
+								"rest",
+								"meals"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/topjava/rest/meals/100007",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"topjava",
+								"rest",
+								"meals",
+								"100007"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/topjava/rest/meals/100008",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"topjava",
+								"rest",
+								"meals",
+								"100008"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createWithLocation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dateTime\": \"2021-01-31T13:13:00\",\r\n    \"description\": \"Обед\",\r\n    \"calories\": 1000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/topjava/rest/meals",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"topjava",
+								"rest",
+								"meals"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dateTime\": \"2021-11-11T11:11:00\",\r\n    \"description\": \"Обед\",\r\n    \"calories\": 1000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/topjava/rest/meals/100007",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"topjava",
+								"rest",
+								"meals",
+								"100007"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBetween",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/topjava/rest/meals/between?startDate=2020-01-31&startTime=12:00:00",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"topjava",
+								"rest",
+								"meals",
+								"between"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2020-01-31"
+								},
+								{
+									"key": "startTime",
+									"value": "12:00:00"
+								},
+								{
+									"key": "endDate",
+									"value": "2020-01-31",
+									"disabled": true
+								},
+								{
+									"key": "endTime",
+									"value": "23:59:59",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "getWithMeals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/topjava/rest/admin/users/100001/with-meals",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"topjava",
+								"rest",
+								"admin",
+								"users",
+								"100001",
+								"with-meals"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "getWithMeals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/topjava/rest/profile/with-meals",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"topjava",
+								"rest",
+								"profile",
+								"with-meals"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
