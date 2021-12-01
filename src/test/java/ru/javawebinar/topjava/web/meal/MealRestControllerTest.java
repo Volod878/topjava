@@ -81,6 +81,6 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .param("endDateTime", String.valueOf(END_DATA_TIME)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MEAL_TO_MATCHER.contentJson(MealsUtil.getTos(meals, DEFAULT_CALORIES_PER_DAY)));
+                .andExpect(MEAL_TO_MATCHER.contentJson(MealsUtil.getTos(mealsBy_30_01_2020, DEFAULT_CALORIES_PER_DAY)));
     }
 }
